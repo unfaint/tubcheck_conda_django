@@ -21,15 +21,16 @@ class MLModelTest(TestCase):
 
         output = ml_model(input_)
 
-        self.assertIsInstance(output, torch.Tensor)
+        self.assertIsInstance(output, dict)
+        self.assertIsInstance(output['tensor'], torch.Tensor)
 
 
 class RESTfulAPITest(TestCase):
 
     def test_check_endpoint_returns_json(self):
         c = APIClient()
-        with open(os.path.join(settings.BASE_DIR, 'xray.jpg'), 'rb') as fp:
-            image = Image.open(fp)
+        image = Image.open(os.path.join(settings.BASE_DIR, 'xray.jpg'))
+        output = ml_model(image)
 
         response = c.post(
             '/oneimage/check',
@@ -37,4 +38,4 @@ class RESTfulAPITest(TestCase):
         )
 
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json()['results'], output['results'])
