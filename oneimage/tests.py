@@ -3,7 +3,7 @@ from django.conf import settings
 from rest_framework.test import APIClient
 import os
 from PIL import Image
-from .ml import DenseNet121, load_model
+from tubcheck.ml import DenseNet121, load_model
 import torch
 
 
