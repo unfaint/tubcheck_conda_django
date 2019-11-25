@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.conf import settings
+from rest_framework.test import APIClient
 import os
 from PIL import Image
 from .ml import DenseNet121, load_model
@@ -20,3 +21,19 @@ class MLModelTest(TestCase):
         output = model(input_)
 
         self.assertIsInstance(output, torch.Tensor)
+
+
+class RESTfulAPITest(TestCase):
+
+    def test_check_endpoint_redirects(self):
+        c = APIClient()
+        with open(os.path.join(settings.BASE_DIR, 'xray.jpg'), 'rb') as fp:
+            image = Image.open(fp)
+
+        response = c.post(
+            '/oneimage/check',
+            data={'image': image},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/oneimage/results')
