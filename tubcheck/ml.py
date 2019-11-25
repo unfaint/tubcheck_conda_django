@@ -54,6 +54,10 @@ class DenseNet121(nn.Module):
     def forward(self, x):
         x = self.transforms(x)
         x = self.densenet121(x)
+        x = {
+            'tensor': x,
+            'results': round(float(x[0, 1]), 2),
+        }
         return x
 
     def change_classes(self, out_size):
