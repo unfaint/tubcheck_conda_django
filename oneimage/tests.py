@@ -3,6 +3,7 @@ from django.conf import settings
 from rest_framework.test import APIClient
 import os
 from PIL import Image
+import json
 from tubcheck.ml import DenseNet121, load_model
 from tubcheck import ml_model
 import torch
@@ -25,7 +26,7 @@ class MLModelTest(TestCase):
 
 class RESTfulAPITest(TestCase):
 
-    def test_check_endpoint_redirects(self):
+    def test_check_endpoint_returns_json(self):
         c = APIClient()
         with open(os.path.join(settings.BASE_DIR, 'xray.jpg'), 'rb') as fp:
             image = Image.open(fp)
@@ -35,5 +36,5 @@ class RESTfulAPITest(TestCase):
             data={'image': image},
         )
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, '/oneimage/results')
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.content_type, 'application/json')
