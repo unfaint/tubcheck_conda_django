@@ -4,6 +4,7 @@ from rest_framework.test import APIClient
 import os
 from PIL import Image
 from tubcheck.ml import DenseNet121, load_model
+from tubcheck import ml_model
 import torch
 
 
@@ -15,10 +16,9 @@ class MLModelTest(TestCase):
         self.assertIsInstance(model.module, DenseNet121)
 
     def test_can_do_forward_pass(self):
-        model = load_model()
         input_ = Image.open(os.path.join(settings.BASE_DIR, 'xray.jpg'))
 
-        output = model(input_)
+        output = ml_model(input_)
 
         self.assertIsInstance(output, torch.Tensor)
 

@@ -63,3 +63,5 @@ class DenseNet121(nn.Module):
             nn.Sigmoid()
         )
 
+
+ml_model = load_model()
