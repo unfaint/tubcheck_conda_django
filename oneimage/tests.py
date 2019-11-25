@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.conf import settings
 from rest_framework.test import APIClient
 import os
@@ -28,14 +28,14 @@ class MLModelTest(TestCase):
 class RESTfulAPITest(TestCase):
 
     def test_check_endpoint_returns_json(self):
-        c = APIClient()
-        image = Image.open(os.path.join(settings.BASE_DIR, 'xray.jpg'))
-        output = ml_model(image)
+        c = Client()
+        with open(os.path.join(settings.BASE_DIR, 'xray.jpg'), 'rb') as fp:
+            output = ml_model(Image.open(fp))
 
-        response = c.post(
-            '/oneimage/check',
-            data={'image': image},
-        )
+            response = c.post(
+                '/oneimage/check',
+                {'image': fp},
+            )
 
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json()['results'], output['results'])
