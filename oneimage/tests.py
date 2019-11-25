@@ -32,6 +32,7 @@ class RESTfulAPITest(TestCase):
         with open(os.path.join(settings.BASE_DIR, 'xray.jpg'), 'rb') as fp:
             output = ml_model(Image.open(fp))
 
+        with open(os.path.join(settings.BASE_DIR, 'xray.jpg'), 'rb') as fp:
             response = c.post(
                 '/oneimage/check',
                 {'image': fp},
