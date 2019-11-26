@@ -6,7 +6,7 @@
 </head>
 <body>
 <p>Please select chest X-ray image and click "Submit" button.</p>
-<form id="upload_form" action="/oneimage/upload" method="post" enctype="multipart/form-data">
+<form id="upload_form" action="/oneimage/check" method="post" enctype="multipart/form-data">
     <input id="upload_input" type="file" name="image"/>
     <input id="upload_button" type="submit"/>
     {% csrf_token %}
