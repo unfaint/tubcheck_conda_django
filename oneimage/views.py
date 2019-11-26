@@ -3,6 +3,7 @@ from django.shortcuts import render
 from PIL import Image
 from tubcheck import ml_model
 import os
+import io
 
 
 def home_page(request):
@@ -11,12 +12,12 @@ def home_page(request):
 
 def check_results(request):
     f = request.FILES['image']
-    with open('tmp/image.jpg', 'wb+') as fp:
-        for chunk in f.chunks():
-            fp.write(chunk)
-    with open('tmp/image.jpg', 'rb') as fp:
-        image = Image.open(fp)
-        output = ml_model(image)
-    os.remove('tmp/image.jpg')
+    b = io.BytesIO()
+    for chunk in f.chunks():
+        b.write(chunk)
+
+    b.seek(0)
+    image = Image.open(b)
+    output = ml_model(image)
     return JsonResponse({'results': output['results']}, status=201)
 
