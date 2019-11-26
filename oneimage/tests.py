@@ -1,7 +1,9 @@
 from django.test import TestCase, Client
 from django.conf import settings
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from rest_framework.test import APIClient
 import os
+import io
 from PIL import Image
 import json
 from tubcheck.ml import DenseNet121, load_model
@@ -40,3 +42,20 @@ class RESTfulAPITest(TestCase):
 
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json()['results'], output['results'])
+
+    def test_can_create_pil_image_from_uploaded_image(self):
+        with open(os.path.join(settings.BASE_DIR, 'xray.jpg'), 'rb') as fp:
+            img_a = Image.open(fp)
+
+            fp.seek(0)
+            up_file = InMemoryUploadedFile(fp, 'image', 'xray.jpg', 'image/jpg',
+                                           os.path.getsize(os.path.join(settings.BASE_DIR, 'xray.jpg')),
+                                           'latin1')
+            b = io.BytesIO()
+            for chunk in up_file.chunks():
+                b.write(bytes(chunk))
+
+            b.seek(0)
+            img_b = Image.open(b)
+
+            self.assertEqual(img_a, img_b)
