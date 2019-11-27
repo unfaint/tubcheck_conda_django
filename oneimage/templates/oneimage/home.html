@@ -3,14 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Tuberculosis detection</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<p>Please select chest X-ray image and click "Submit" button.</p>
-<form id="upload_form" action="/oneimage/check" method="post" enctype="multipart/form-data">
-    <input id="upload_input" type="file" name="image"/>
-    <input id="upload_button" type="submit"/>
-    {% csrf_token %}
-</form>
-<p>This site uses CheXNet model</p>
+
+<div class="container">
+    <div class="jumbotron">
+        <p>Please select chest X-ray image and click "Submit" button.</p>
+        <form class="form-vertical" id="upload_form" action="/oneimage/check" method="post" enctype="multipart/form-data">
+
+
+            <div class="form-group">
+                <div class="custom-file">
+                <input id="upload_input" class="custom-file-input" type="file" name="image"/>
+                    <label class="custom-file-label" for="upload_input">Choose file</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input id="upload_button" type="submit" class="btn btn-primary"/>
+            </div>
+            {% csrf_token %}
+        </form>
+        <p>This site uses CheXNet model</p>
+    </div>
+</div>
+
 </body>
 </html>

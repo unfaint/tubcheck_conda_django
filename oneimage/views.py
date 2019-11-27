@@ -20,4 +20,3 @@ def check_results(request):
     image = Image.open(b)
     output = ml_model(image)
     return JsonResponse({'results': output['results']}, status=201)
-
