@@ -24,7 +24,7 @@ class SmokeTest(TestCase):
             }
         )
 
-        self.assertRedirects(response, '/uvsai/0')
+        self.assertEqual(response.status_code, 302)
 
 
 class ModelSmokeTest(TestCase):
