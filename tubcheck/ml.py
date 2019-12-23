@@ -4,7 +4,6 @@ from torchvision import transforms
 import re
 import os
 from django.conf import settings
-from PIL import Image
 
 
 def fix_state_dict(state_dict):
