@@ -46,3 +46,20 @@ class ModelSmokeTest(TestCase):
 
         saved_xrays = XRayImage.objects.all()
         self.assertEqual(saved_xrays.count(), len(file_list))
+
+
+class XRayImageListTest(TestCase):
+
+    def test_create_new_competitor_on_first_enter(self):
+        c = Client()
+        email = 'test@test'
+        _ = c.post(
+            '/uvsai/enter',
+            data={
+                'id_input': email,
+            }
+        )
+
+        saved_user = Competitor.objects.first()
+
+        self.assertEqual(saved_user.email, email)
