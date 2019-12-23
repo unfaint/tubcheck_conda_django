@@ -13,7 +13,7 @@ class NewCompetitorTest(StaticLiveServerTestCase):
 
     def test_competitor_can_register_and_answer(self):
         # main page opens up, inputbox is there
-        self.browser.get(self.live_server_url)
+        self.browser.get('%s%s' % (self.live_server_url, '/uvsai/'))
 
         input_box = self.browser.find_element_by_id('id_input')
 

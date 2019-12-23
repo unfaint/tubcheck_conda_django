@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     # user
     'oneimage.apps.OneimageConfig',
+    'uvsai.apps.UvsaiConfig',
 ]
 
 MIDDLEWARE = [
