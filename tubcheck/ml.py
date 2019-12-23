@@ -4,6 +4,7 @@ from torchvision import transforms
 import re
 import os
 from django.conf import settings
+from PIL import Image
 
 
 def fix_state_dict(state_dict):
@@ -44,6 +45,9 @@ class DenseNet121(nn.Module):
             nn.Sigmoid()
         )
         self.transforms = transforms.Compose([
+            transforms.Lambda(
+                lambda x: x.convert(mode='RGB')
+            ),
             transforms.Resize((224, 224)),
             transforms.ToTensor(),
             transforms.Lambda(
