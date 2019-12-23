@@ -26,6 +26,13 @@ class MLModelTest(TestCase):
         self.assertIsInstance(output, dict)
         self.assertIsInstance(output['tensor'], torch.Tensor)
 
+    def test_model_can_process_grayscale(self):
+        input_ = Image.open(os.path.join(settings.BASE_DIR, 'xray_1ch.png'))
+
+        output = ml_model(input_)
+
+        self.assertIsInstance(output, dict)
+
 
 class RESTfulAPITest(TestCase):
 
