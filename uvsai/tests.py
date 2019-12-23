@@ -20,7 +20,7 @@ class SmokeTest(TestCase):
         response = c.post(
             '/uvsai/enter',
             data={
-                'email': 'test@test',
+                'id_input': 'test@test',
             }
         )
 
