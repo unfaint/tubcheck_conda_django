@@ -63,3 +63,10 @@ class XRayImageListTest(TestCase):
         saved_user = Competitor.objects.first()
 
         self.assertEqual(saved_user.email, email)
+
+    def test_list_view_returns_200(self):
+        c = Client()
+
+        response = c.get('/uvsai/0')
+
+        self.assertEqual(response.status_code, 200)
