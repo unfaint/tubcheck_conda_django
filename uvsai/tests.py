@@ -5,6 +5,23 @@ from django.conf import settings
 from .models import XRayImage, Competitor
 
 
+def get_image_files_list():
+    images_list = [i.split('/')[-1] for i in glob(os.path.join(settings.STATIC_ROOT, 'images/*.png'))]
+
+    return images_list
+
+
+def create_new_user_and_images(images_list, email='test@test'):
+    user = Competitor()
+    user.email = email
+    user.save()
+
+    for f in images_list:
+        xray = XRayImage()
+        xray.file = f
+        xray.user = user
+
+
 class SmokeTest(TestCase):
 
     def test_start_page_returns_html(self):
@@ -30,7 +47,7 @@ class SmokeTest(TestCase):
 class ModelSmokeTest(TestCase):
 
     def test_can_create_image_objects_for_files(self):
-        file_list = glob(os.path.join(settings.STATIC_URL, 'images'))
+        file_list = glob(os.path.join(settings.STATIC_ROOT, 'images'))
 
         user = Competitor()
         user.save()
@@ -70,3 +87,13 @@ class XRayImageListTest(TestCase):
         response = c.get('/uvsai/0')
 
         self.assertEqual(response.status_code, 200)
+
+    def test_list_view_contains_image(self):
+        c = Client()
+        images_list = get_image_files_list()
+        create_new_user_and_images(images_list)
+
+        response1 = c.get('/uvsai/0')
+
+        self.assertTemplateUsed(response1, 'uvsai/xrayimage_list.html')
+        self.assertIn(images_list[0], str(response1.content))
