@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.views.generic.list import ListView
 from .models import XRayImage, Competitor
 
 
@@ -20,11 +19,12 @@ def enter(request):
         return redirect('/uvsai/')
 
 
-class ImageListView(ListView):
+def xray_image(request, image_id):
+    xray = XRayImage.objects.first()
+    image_file_name = xray.file
 
-    model = XRayImage
-    paginate_by = 1
+    context = {
+        'image_file_name': image_file_name,
+    }
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+    return render(request, 'uvsai/xray_image.html', context)

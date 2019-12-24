@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,6 @@
     <title>XRayImage ListView</title>
 </head>
 <body>
-
+    <img src="{% static 'images/'|add:image_file_name %}" />
 </body>
 </html>
