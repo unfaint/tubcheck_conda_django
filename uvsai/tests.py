@@ -20,6 +20,7 @@ def create_new_user_and_images(images_list, email='test@test'):
         xray = XRayImage()
         xray.file = f
         xray.user = user
+        xray.save()
 
 
 class SmokeTest(TestCase):
@@ -83,6 +84,8 @@ class XRayImageListTest(TestCase):
 
     def test_list_view_returns_200(self):
         c = Client()
+        images_list = get_image_files_list()
+        create_new_user_and_images(images_list)
 
         response = c.get('/uvsai/0')
 
@@ -95,5 +98,5 @@ class XRayImageListTest(TestCase):
 
         response1 = c.get('/uvsai/0')
 
-        self.assertTemplateUsed(response1, 'uvsai/xrayimage_list.html')
+        self.assertTemplateUsed(response1, 'uvsai/xray_image.html')
         self.assertIn(images_list[0], str(response1.content))
